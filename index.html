@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norway – Land of Fjords and Midnight Sun | Laura Yissel Leaño Fajardo – UNAD</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; }
+  body { font-family:'Inter', sans-serif; overflow:hidden; background:#0a0f18; color:#fff; }
+  .deck { position:relative; width:100vw; height:100vh; overflow:hidden; }
+
+  .slide {
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    padding:50px 70px;
+    opacity:0; transform:scale(1.02);
+    transition:opacity .8s ease, transform .8s ease;
+    pointer-events:none; overflow-y:auto;
+    background-size:cover; background-position:center; background-attachment:fixed;
+  }
+  .slide::before {
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(135deg, rgba(8,15,25,.9), rgba(10,25,40,.8), rgba(5,12,20,.92));
+    z-index:0;
+  }
+  .slide.active { opacity:1; transform:scale(1); pointer-events:auto; z-index:2; }
+
+  /* FONDOS: paisajes de Noruega */
+  .bg-cover   { background-image:url('https://images.unsplash.com/photo-1520769945061-0a448c463865?auto=format&fit=crop&w=1920&q=80'); }
+  .bg-oslo    { background-image:url('https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?auto=format&fit=crop&w=1920&q=80'); }
+  .bg-culture { background-image:url('https://images.unsplash.com/photo-1478719059408-592965723cbc?auto=format&fit=crop&w=1920&q=80'); }
+  .bg-economy { background-image:url('https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=1920&q=80'); }
+  .bg-edu     { background-image:url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1920&q=80'); }
+  .bg-emp     { background-image:url('https://images.unsplash.com/photo-1467377791767-c929b5dc9a23?auto=format&fit=crop&w=1920&q=80'); }
+  .bg-tour    { background-image:url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=1920&q=80'); }
+  .bg-final   { background-image:url('https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?auto=format&fit=crop&w=1920&q=80'); }
+
+  #progress {
+    position:fixed; top:0; left:0; height:3px; width:12.5%;
+    background:linear-gradient(90deg,#c9a961,#e8d5a8,#c9a961);
+    z-index:100; transition:width .5s ease;
+    box-shadow:0 0 12px rgba(201,169,97,.7);
+  }
+
+  .content {
+    position:relative; z-index:2;
+    max-width:1400px; width:100%;
+    display:grid; grid-template-columns:1.15fr 1fr; gap:45px;
+    align-items:center;
+  }
+  .content.reverse { grid-template-columns:1fr 1.15fr; }
+  .content.reverse .text-col { order:2; }
+  .content.reverse .img-col { order:1; }
+
+  /* UNAD badge */
+  .unad-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:7px 16px; border-radius:50px;
+    background:rgba(201,169,97,.15);
+    border:1px solid rgba(201,169,97,.5);
+    color:#e8d5a8; font-size:.78rem; font-weight:600;
+    letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:18px;
+  }
+
+  h1 {
+    font-family:'Playfair Display', serif;
+    font-size:clamp(2.5rem,6vw,5.2rem);
+    font-weight:900; line-height:1; letter-spacing:-2px;
+    color:#fff; margin-bottom:16px;
+    text-shadow:0 4px 30px rgba(0,0,0,.6);
+  }
+  h1 .accent { color:#e8d5a8; font-style:italic; }
+  h2 {
+    font-family:'Playfair Display', serif;
+    font-size:clamp(1.7rem,3.4vw,2.6rem);
+    font-weight:700; margin-bottom:18px;
+    color:#fff; line-height:1.15;
+    text-shadow:0 4px 20px rgba(0,0,0,.5);
+  }
+  h2 .accent { color:#e8d5a8; font-style:italic; }
+  .subtitle {
+    font-size:clamp(.95rem,1.6vw,1.15rem);
+    font-weight:300; color:#e8d5a8;
+    letter-spacing:3px; text-transform:uppercase;
+    margin-bottom:22px;
+  }
+  p, li { font-size:clamp(.88rem,1.05vw,1rem); line-height:1.65; color:rgba(255,255,255,.92); }
+  ul { list-style:none; }
+  li { margin-bottom:8px; padding-left:26px; position:relative; }
+  li::before { content:"—"; position:absolute; left:0; top:0; color:#c9a961; font-weight:700; }
+
+  .highlight { color:#e8d5a8; font-weight:600; }
+
+  .tags { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .tag {
+    padding:6px 14px; border-radius:50px; font-size:.78rem; font-weight:500;
+    background:rgba(255,255,255,.08); backdrop-filter:blur(10px);
+    border:1px solid rgba(201,169,97,.4); color:#e8d5a8; transition:all .3s;
+  }
+  .tag:hover { background:rgba(201,169,97,.18); border-color:#c9a961; }
+
+  .gallery { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .gallery .img-frame:first-child { grid-column:1/3; aspect-ratio:16/9; }
+  .gallery.three { grid-template-columns:1fr 1fr; }
+  .gallery.three .img-frame:first-child { grid-column:1/3; aspect-ratio:16/8; }
+  .gallery.four { grid-template-columns:1fr 1fr; }
+  .gallery.four .img-frame { aspect-ratio:1/1; }
+
+  .img-frame {
+    position:relative; width:100%; aspect-ratio:4/3;
+    border-radius:12px; overflow:hidden;
+    box-shadow:0 18px 45px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08);
+    background:#1a2230;
+  }
+  .img-frame img {
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .9s ease;
+  }
+  .img-frame:hover img { transform:scale(1.06); }
+  .img-frame::after {
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,.35), transparent 60%);
+    pointer-events:none;
+  }
+
+  .cards {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:10px; margin-top:14px;
+  }
+  .card {
+    padding:14px 12px; border-radius:10px;
+    background:rgba(255,255,255,.06); backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.1); transition:all .35s;
+  }
+  .card:hover {
+    transform:translateY(-4px);
+    background:rgba(201,169,97,.12);
+    border-color:rgba(201,169,97,.45);
+  }
+  .card .icon { font-size:1.4rem; margin-bottom:4px; }
+  .card .value { font-size:.92rem; font-weight:600; }
+
+  .quote {
+    font-family:'Playfair Display', serif;
+    font-style:italic; font-size:1rem;
+    padding:13px 20px;
+    border-left:3px solid #c9a961;
+    background:rgba(201,169,97,.08);
+    border-radius:0 12px 12px 0;
+    margin-top:14px; color:#e8d5a8;
+  }
+
+  .fact-box {
+    margin-top:14px; padding:14px 18px;
+    background:rgba(255,255,255,.05);
+    border-radius:10px;
+    border-left:3px solid #e8d5a8;
+  }
+  .fact-box .label {
+    font-size:.7rem; letter-spacing:2px; text-transform:uppercase;
+    color:#e8d5a8; font-weight:600; margin-bottom:4px;
+  }
+
+  .nav-btn {
+    position:fixed; top:50%; transform:translateY(-50%);
+    width:54px; height:54px; border-radius:50%; cursor:pointer;
+    background:rgba(10,20,30,.6); backdrop-filter:blur(12px);
+    color:#e8d5a8; font-size:1.3rem; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    transition:all .3s;
+    border:1px solid rgba(201,169,97,.4);
+    box-shadow:0 8px 30px rgba(0,0,0,.4);
+  }
+  .nav-btn:hover { background:rgba(201,169,97,.25); border-color:#c9a961; }
+  .nav-btn:active { transform:translateY(-50%) scale(.94); }
+  #prev { left:20px; }
+  #next { right:20px; }
+
+  .dots {
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    display:flex; gap:9px; z-index:50;
+    padding:9px 18px; border-radius:50px;
+    background:rgba(10,20,30,.55); backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .dot {
+    width:9px; height:9px; border-radius:50%; cursor:pointer;
+    background:rgba(255,255,255,.3); transition:all .3s; border:none;
+  }
+  .dot:hover { background:rgba(232,213,168,.7); }
+  .dot.active { background:#e8d5a8; transform:scale(1.5); box-shadow:0 0 10px #c9a961; }
+
+  .slide-num {
+    position:fixed; top:18px; right:20px; z-index:50;
+    font-weight:500; font-size:.8rem; letter-spacing:2px;
+    color:#e8d5a8; padding:7px 16px; border-radius:50px;
+    background:rgba(10,20,30,.55); backdrop-filter:blur(10px);
+    border:1px solid rgba(201,169,97,.25);
+  }
+
+  .snow {
+    position:absolute; inset:0; pointer-events:none; z-index:1;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.4), transparent),
+      radial-gradient(2px 2px at 60% 70%, rgba(255,255,255,.3), transparent),
+      radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,.4), transparent);
+    background-size:200% 200%;
+    animation:drift 20s linear infinite;
+    opacity:.35;
+  }
+  @keyframes drift { 0%{background-position:0 0;} 100%{background-position:100% 100%;} }
+
+  @media (max-width:900px) {
+    .slide { padding:70px 20px 100px; background-attachment:scroll; }
+    .content, .content.reverse { grid-template-columns:1fr; gap:25px; }
+    .content.reverse .text-col { order:1; }
+    .content.reverse .img-col { order:2; }
+    .nav-btn { width:44px; height:44px; font-size:1.1rem; }
+    #prev { left:8px; } #next { right:8px; }
+    h1 { font-size:2.4rem; }
+  }
+
+  .slide.active .content > * { animation:fadeUp .9s ease both; }
+  .slide.active .content > *:nth-child(2) { animation-delay:.15s; }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(25px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div class="slide-num" id="slideNum">1 / 8</div>
+
+<div class="deck">
+
+  <!-- ============ SLIDE 1: PORTADA ============ -->
+  <section class="slide active bg-cover">
+    <div class="snow"></div>
+    <div class="content reverse">
+      <div class="text-col">
+        <span class="unad-badge">🎓 UNAD · English Module</span>
+        <p class="subtitle">A Journey to the North</p>
+        <h1>Norway<br><span class="accent">Land of Fjords &amp; Midnight Sun</span></h1>
+        <p style="margin-bottom:8px; opacity:.85;"><strong>Presented by:</strong> Laura Yissel Leaño Fajardo</p>
+        <p style="margin-bottom:18px; opacity:.7; font-size:.88rem;">Universidad Nacional Abierta y a Distancia – UNAD</p>
+        <p>
+          Norway <strong>had fascinated me</strong> even before I started this project. It is a country where
+          mountains meet the sea, glaciers shape the land, and the sun shines at midnight during summer.
+          <em>If you have ever dreamed of visiting the Arctic, you might love Norway as much as I do.</em>
+        </p>
+        <div class="tags" style="margin-top:18px;">
+          <span class="tag">🏔️ 1,190 fjords</span>
+          <span class="tag">🌌 Northern Lights</span>
+          <span class="tag">☀️ Midnight Sun</span>
+          <span class="tag">🌍 Arctic Circle</span>
+        </div>
+      </div>
+      <div class="img-col">
+        <div class="gallery">
+          <div class="img-frame">
+            <img src="https://gifdb.com/gif/aurora-borealis-shining-over-lake-r0z0z2h0w24aabqc.gif"
+                 alt="Aurora over lake"
+                 onerror="this.src='https://images.unsplash.com/photo-1520769945061-0a448c463865?auto=format&fit=crop&w=1200&q=80'">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Mountains">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=800&q=80" alt="Aurora">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 2: QUICK FACTS ============ -->
+  <section class="slide bg-oslo">
+    <div class="content">
+      <div class="text-col">
+        <h2>Quick <span class="accent">Facts</span></h2>
+        <p>Norway is a <span class="highlight">constitutional monarchy</span> located in Northern Europe, on the
+        Scandinavian Peninsula. It shares borders with Sweden, Finland, and Russia, and has a long coastline
+        of almost <span class="highlight">100,000 km</span> (including fjords and islands). Although it is not a
+        member of the EU, it belongs to the European Economic Area.</p>
+        <div class="cards">
+          <div class="card"><div class="icon">📍</div><div class="value">Northern Europe</div></div>
+          <div class="card"><div class="icon">🏙️</div><div class="value">Capital: Oslo</div></div>
+          <div class="card"><div class="icon">👥</div><div class="value">~5.5 million</div></div>
+          <div class="card"><div class="icon">🗣️</div><div class="value">Norwegian</div></div>
+          <div class="card"><div class="icon">💰</div><div class="value">Krone (NOK)</div></div>
+          <div class="card"><div class="icon">🏔️</div><div class="value">1,190 fjords</div></div>
+        </div>
+        <div class="fact-box">
+          <div class="label">English in Norway</div>
+          <p><em>If you visit Norway, you can communicate in English almost everywhere</em>, because most Norwegians learn it from an early age.</p>
+        </div>
+      </div>
+      <div class="img-col">
+        <div class="gallery three">
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1601439678777-b2b3c56fa627?auto=format&fit=crop&w=1200&q=80"
+                 alt="Oslo cityscape"
+                 onerror="this.src='https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?auto=format&fit=crop&w=1200&q=80'">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Bergen">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1467377791767-c929b5dc9a23?auto=format&fit=crop&w=800&q=80" alt="Norway landscape">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 3: CULTURE ============ -->
+  <section class="slide bg-culture">
+    <div class="content reverse">
+      <div class="text-col">
+        <h2>Norwegian <span class="accent">Culture</span></h2>
+        <p>Norwegian culture is deeply connected to <strong>nature</strong> and to the idea of equality. These
+        concepts shape everyday life and social traditions:</p>
+        <div class="tags">
+          <span class="tag">friluftsliv — open-air living</span>
+          <span class="tag">koselig — cozy</span>
+          <span class="tag">dugnad — community work</span>
+        </div>
+        <ul style="margin-top:8px;">
+          <li><strong>"Hei!"</strong> — Hi! (informal greeting)</li>
+          <li><strong>"Takk for maten"</strong> — Thanks for the food</li>
+          <li><strong>"Skål!"</strong> — Cheers! (at celebrations)</li>
+        </ul>
+        <div class="fact-box">
+          <div class="label">Everyday customs</div>
+          <p>People usually <strong>take off their shoes</strong> when entering a home, and children often call
+          adults by their first names. These habits reflect respect and equality.</p>
+        </div>
+        <div class="quote">"Ut på tur, aldri sur" — Out on a trip, never grumpy.</div>
+      </div>
+      <div class="img-col">
+        <div class="gallery four">
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=800&q=80" alt="Norwegian cabin">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=800&q=80" alt="Hiking">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=800&q=80" alt="Skiing">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80"
+                 alt="Bergen wooden houses"
+                 onerror="this.src='https://images.unsplash.com/photo-1478719059408-592965723cbc?auto=format&fit=crop&w=800&q=80'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 4: ECONOMY ============ -->
+  <section class="slide bg-economy">
+    <div class="content">
+      <div class="text-col">
+        <h2>Economy &amp; <span class="accent">Welfare</span></h2>
+        <p>Norway has a <strong>mixed economy</strong> with one of the strongest welfare states in the world.
+        It is also one of the wealthiest countries per capita, thanks to its natural resources and careful
+        management of public funds.</p>
+        <div class="cards">
+          <div class="card"><div class="icon">🛢️</div><div class="value">Oil &amp; Gas</div></div>
+          <div class="card"><div class="icon">🎣</div><div class="value">Fishing</div></div>
+          <div class="card"><div class="icon">🚢</div><div class="value">Shipping</div></div>
+          <div class="card"><div class="icon">💻</div><div class="value">Technology</div></div>
+          <div class="card"><div class="icon">🌲</div><div class="value">Forestry</div></div>
+          <div class="card"><div class="icon">⚡</div><div class="value">Hydropower</div></div>
+        </div>
+        <div class="fact-box">
+          <div class="label">Sovereign Wealth Fund</div>
+          <p>The government fund <strong>had grown</strong> to over <span class="highlight">$1 trillion by 2020</span>,
+          making it the largest in the world. This fund supports free education, healthcare, and pensions.</p>
+        </div>
+        <div class="quote"><em>However, the cost of living is very high. If you eat out in Oslo, you might pay twice as much as in many Latin American cities.</em></div>
+      </div>
+      <div class="img-col">
+        <div class="gallery four">
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80"
+                 alt="Oil & gas industry"
+                 onerror="this.src='https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=800&q=80'">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1516900557549-41557d405adf?auto=format&fit=crop&w=800&q=80"
+                 alt="Fishing boats"
+                 onerror="this.src='https://images.unsplash.com/photo-1520769945061-0a448c463865?auto=format&fit=crop&w=800&q=80'">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=800&q=80"
+                 alt="Shipping"
+                 onerror="this.src='https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?auto=format&fit=crop&w=800&q=80'">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80"
+                 alt="Renewable energy"
+                 onerror="this.src='https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?auto=format&fit=crop&w=800&q=80'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 5: EDUCATION ============ -->
+  <section class="slide bg-edu">
+    <div class="content reverse">
+      <div class="text-col">
+        <h2><span class="accent">Education</span> in Norway</h2>
+        <p>Education is a priority in Norway. It is <strong>free</strong> at all levels, including university,
+        and it promotes <span class="highlight">equality, critical thinking, and creativity</span>.</p>
+        <ul>
+          <li>🎓 <strong>Free public education</strong> from primary school to university</li>
+          <li>💰 Students can receive <strong>loans and grants</strong> from the state</li>
+          <li>🧠 <strong>Interactive learning</strong> is more common than memorization</li>
+          <li>👩‍🏫 Children call teachers by their <strong>first names</strong></li>
+          <li>🌍 Many students study abroad through exchange programs</li>
+        </ul>
+        <div class="fact-box">
+          <div class="label">Bilingual advantage</div>
+          <p>Most Norwegians speak fluent English because they start learning it at age six. <em>If I had studied
+          there, I would have learned Norwegian earlier!</em></p>
+        </div>
+      </div>
+      <div class="img-col">
+        <div class="gallery three">
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=80" alt="Library">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80" alt="Books">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 6: EMPLOYMENT ============ -->
+  <section class="slide bg-emp">
+    <div class="content">
+      <div class="text-col">
+        <h2>Employment <span class="accent">Opportunities</span></h2>
+        <p>Norway offers excellent working conditions and one of the <strong>lowest unemployment rates in Europe</strong>
+        (around 3–4%). Workers enjoy <span class="highlight">generous vacation, parental leave, and flexible hours</span>.</p>
+        <div class="cards">
+          <div class="card"><div class="icon">⚙️</div><div class="value">Engineering</div></div>
+          <div class="card"><div class="icon">💻</div><div class="value">IT</div></div>
+          <div class="card"><div class="icon">🏥</div><div class="value">Healthcare</div></div>
+          <div class="card"><div class="icon">🌱</div><div class="value">Renewables</div></div>
+          <div class="card"><div class="icon">🚢</div><div class="value">Maritime</div></div>
+          <div class="card"><div class="icon">🎣</div><div class="value">Fishing</div></div>
+        </div>
+        <div class="fact-box">
+          <div class="label">Working in Norway</div>
+          <p>Foreigners may need to learn Norwegian for certain jobs. <em>If you want to work in Norway, you
+          <strong>should</strong> research the job market and validate your qualifications.</em></p>
+        </div>
+        <div class="quote"><em>English is widely used in tech and business, so bilingual professionals have more opportunities.</em></div>
+      </div>
+      <div class="img-col">
+        <div class="gallery four">
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Modern office">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80" alt="Teamwork">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80"
+                 alt="Healthcare"
+                 onerror="this.src='https://images.unsplash.com/photo-1467377791767-c929b5dc9a23?auto=format&fit=crop&w=800&q=80'">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+                 alt="Technology"
+                 onerror="this.src='https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=800&q=80'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 7: TOURISM ============ -->
+  <section class="slide bg-tour">
+    <div class="content reverse">
+      <div class="text-col">
+        <h2><span class="accent">Tourism</span> in Norway</h2>
+        <p>Norway is famous worldwide for its <strong>natural landscapes</strong>. Every year, millions of visitors
+        travel to see the <span class="highlight">fjords, the Northern Lights, and the midnight sun</span>.</p>
+        <div class="tags">
+          <span class="tag">Oslo</span>
+          <span class="tag">Bergen</span>
+          <span class="tag">Tromsø</span>
+          <span class="tag">Lofoten Islands</span>
+          <span class="tag">Geirangerfjord</span>
+        </div>
+        <ul style="margin-top:8px;">
+          <li>🚂 Ride the scenic <strong>Flåm Railway</strong></li>
+          <li>🐋 Go <strong>whale watching</strong> in Tromsø</li>
+          <li>🛳️ Cruise through the <strong>fjords</strong></li>
+          <li>🎿 Ski in winter or hike in summer</li>
+        </ul>
+        <div class="fact-box">
+          <div class="label">Best time to visit</div>
+          <p><em>If you travel in winter, you <strong>must</strong> pack warm clothes. If you go in summer, you can
+          experience the midnight sun. In my opinion, May and September offer fewer tourists and mild weather.</em></p>
+        </div>
+      </div>
+      <div class="img-col">
+        <div class="gallery four">
+          <div class="img-frame">
+            <img src="https://gifdb.com/gif/aurora-borealis-over-snowy-mountains-t2bqiki4v0ok8fyz.gif"
+                 alt="Aurora over snowy mountains"
+                 onerror="this.src='https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=800&q=80'">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1478719059408-592965723cbc?auto=format&fit=crop&w=800&q=80" alt="Fjord">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=800&q=80"
+                 alt="Flåm Railway train"
+                 onerror="this.src='https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?auto=format&fit=crop&w=800&q=80'">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1520769945061-0a448c463865?auto=format&fit=crop&w=800&q=80" alt="Lofoten">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 8: CONCLUSIÓN ============ -->
+  <section class="slide bg-final">
+    <div class="snow"></div>
+    <div class="content">
+      <div class="text-col">
+        <h2><span class="accent">Conclusion</span></h2>
+        <p>Norway is a <strong>fascinating country</strong> that combines <span class="highlight">natural beauty,
+        social equality, and innovation</span>. Its culture, strong economy, free education system, and
+        tourism make it a unique example in the world.</p>
+        <div class="tags" style="margin-top:14px;">
+          <span class="tag">High quality of life</span>
+          <span class="tag">Breathtaking landscapes</span>
+          <span class="tag">Unique culture</span>
+          <span class="tag">Strong welfare</span>
+        </div>
+        <div class="quote" style="margin-top:18px;">
+          <em>If I could visit one place tomorrow, I <strong>would</strong> choose Norway. Would you?</em>
+        </div>
+        <p style="margin-top:16px; font-family:'Playfair Display', serif; font-size:1.25rem; color:#e8d5a8; font-style:italic;">
+          Takk for oppmerksomheten! 🇳🇴
+        </p>
+        <p style="opacity:.75; font-size:.88rem;">Thank you for your attention.</p>
+        <p style="opacity:.6; font-size:.75rem; margin-top:12px;">
+          Laura Yissel Leaño Fajardo · UNAD · English Module
+        </p>
+      </div>
+      <div class="img-col">
+        <div class="gallery three">
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=1200&q=80" alt="Norway landscape">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?auto=format&fit=crop&w=800&q=80" alt="Aurora Norway">
+          </div>
+          <div class="img-frame">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Mountains">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<button class="nav-btn" id="prev" aria-label="Previous">❮</button>
+<button class="nav-btn" id="next" aria-label="Next">❯</button>
+
+<div class="dots" id="dots">
+  <button class="dot active"></button>
+  <button class="dot"></button>
+  <button class="dot"></button>
+  <button class="dot"></button>
+  <button class="dot"></button>
+  <button class="dot"></button>
+  <button class="dot"></button>
+  <button class="dot"></button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  const progress = document.getElementById('progress');
+  const slideNum = document.getElementById('slideNum');
+  let current = 0;
+
+  function goTo(i) {
+    if (i < 0) i = slides.length - 1;
+    if (i >= slides.length) i = 0;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    progress.style.width = ((current + 1) / slides.length * 100) + '%';
+    slideNum.textContent = (current + 1) + ' / ' + slides.length;
+  }
+
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  let startX = 0;
+  document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (dx > 60) goTo(current - 1);
+    if (dx < -60) goTo(current + 1);
+  });
+
+  goTo(0);
+</script>
+
+</body>
+</html>
